@@ -39,7 +39,17 @@ public class ThreadPrimeExample {
 			System.out.println("\n I can tell you the nth prime number. Enter n: ");
 			
 			int n = sc.nextInt();
-			if (n==0) break;
+			if (n==0) {
+				
+				try {
+					System.out.println("Waiting for threads to finish execution");
+					waitForThreads(threads);
+					System.out.println("Done ! " + threads.size() + " threads finished calculating the prime numbers");
+				} catch (InterruptedException e) {
+					System.out.println("Got Interrupted, will try again later...");
+				}
+				break;
+			}
 			
 			Runnable r = new Runnable() {
 				
@@ -70,6 +80,13 @@ public class ThreadPrimeExample {
 		}
 	}
 
+	private static void waitForThreads(List<Thread> threads) throws InterruptedException {
+		
+		for(Thread t : threads) {
+			t.join();
+		}
+		
+	}
 	
 	
 }
